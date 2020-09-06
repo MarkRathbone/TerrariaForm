@@ -1,0 +1,72 @@
+#Terraria Ansible playbook - Terra.yml
+
+- name: Server setup
+  hosts: localhost
+  become: true
+  become_user: root
+  tasks:
+  - name: Setup
+    yum:
+      name:
+        - "*"
+        - wget
+        - unzip
+        - tmux
+      state: latest
+
+  - name: Create the user for the Terraria server
+    user:
+      name: TerrariaServer
+      comment: Terraria Server
+      group: wheel
+  
+#Play 2 Server set up
+- name: Server Start
+  hosts: localhost
+  become: true
+  become_user: TerrariaServer
+  tasks:
+  - stat:
+      path: ~/1405/Linux/TerrariaServer.bin.x86_64
+    register: server
+
+  - name: Download
+    when: server.stat.exists == False
+    get_url: 
+      url: https://www.terraria.org/system/dedicated_servers/archives/000/000/039/original/terraria-server-1405.zip?1591301368
+      dest: ~/
+
+  - name: Unzip
+    when: server.stat.exists == False
+    unarchive:
+      remote_src: yes
+      src: ~/terraria-server-1405.zip
+      dest: ~/
+      
+  - name: Permissions
+    when: server.stat.exists == False
+    file:
+      path: ~/1405/Linux/TerrariaServer.bin.x86_64
+      state: file
+      mode: +x
+
+  - name: Create worlds directory
+    file:
+      path: ~/1405/Linux/worlds
+      state: directory
+      mode: g+w
+
+  - name: Configuration file
+    copy:
+      src: ./serverconfig.txt
+      dest: ~/1405/Linux/serverconfig.txt
+
+  - name: Open Server
+    command: tmux new-session -d -s Terraria
+    command: tmux send-keys 'sudo su TerrariaServer' C-m
+    command: tmux send-keys '/home/TerrariaServer/1405/Linux/TerrariaServer.bin.x86_64 -config serverconfig.txt -port 7777 -players 4 -pass SomePasswordhere -world /home/TerrariaServer/1405/Linux/worlds/Terra.wld -autocreate 2 -worldname Terra -secure -seed WorldSeed'
+
+
+
+#write a readme - note editable variables
+#put a licence
