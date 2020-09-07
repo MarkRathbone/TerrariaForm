@@ -95,12 +95,6 @@ resource "aws_ebs_volume" "ebs" {
   }
 }
 
-resource "aws_volume_attachment" "ebs_att" {
-    device_name = "/dev/sdh"
-    volume_id = aws_ebs_volume.ebs.id
-    instance_id = aws_instance.terra.id
-}
-
 data "aws_ami" "ec2_ami" {
     most_recent = true
     owners = ["amazon"]
@@ -111,16 +105,21 @@ data "aws_ami" "ec2_ami" {
     }
 }
 
+data "template_file" "terraria" {
+    template = "${file("user_data.sh.tpl")}"
+
+    vars = {
+        githubuser = "${var.github}"
+    }
+}
+
 resource "aws_instance" "terra" {
     ami = data.aws_ami.ec2_ami.id
     instance_type = var.ec2_type
     availability_zone = "${var.region}${var.az}"
     key_name = var.key_name
-    user_data = <<-EOF
-                #!/bin/bash
-                sudo amazon-linux-extras install ansible2 -y
-                ansible-playbook terra.yml
-                EOF
+
+    user_data = data.template_file.terraria.rendered
     
     network_interface {
         device_index = 0
@@ -136,8 +135,3 @@ output "instance_ip" {
     value = aws_eip.eip.public_ip
     description = "The public IP address of the Terraria server instance."
 }
-
-#template file
-#write a readme file
-
-#install ansible on localhost with userdata, fetch terraria ansible from github repo branch, installs it.
