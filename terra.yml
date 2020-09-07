@@ -66,7 +66,11 @@
       dest: ~/1405/Linux/serverconfig.txt
 
 #there is a bug in the TerrariaServer version 1.4.0.5 binary where it doesn't read configs properly.
-  - name: Open Server
+  - name: Open tmux session
     command: tmux new-session -d -s Terraria
+
+  - name: Switch tmux to TerrariaServer
     command: tmux send-keys 'sudo su TerrariaServer' C-m
+
+  - name: Launch Server
     command: tmux send-keys '/home/TerrariaServer/1405/Linux/TerrariaServer.bin.x86_64 -config serverconfig.txt -port 7777 -players 4 -pass SomePasswordhere -world /home/TerrariaServer/1405/Linux/worlds/Terra.wld -autocreate 2 -worldname Terra -secure -seed WorldSeed'
