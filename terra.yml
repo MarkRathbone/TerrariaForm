@@ -70,4 +70,4 @@
     command: tmux new-session -d -s Terraria
 
   - name: Launch Server
-    command: tmux send-keys '/home/TerrariaServer/1405/Linux/TerrariaServer.bin.x86_64 -config serverconfig.txt -port 7777 -players 4 -pass SomePasswordhere -world /home/TerrariaServer/1405/Linux/worlds/Terra.wld -autocreate 2 -worldname Terra -secure -seed WorldSeed'
+    command: tmux send-keys '/home/TerrariaServer/1405/Linux/TerrariaServer.bin.x86_64 -config serverconfig.txt -port 7777 -players 4 -pass SomePasswordhere -world /home/TerrariaServer/1405/Linux/worlds/Terra.wld -autocreate 2 -worldname Terra -secure -seed WorldSeed' C-m

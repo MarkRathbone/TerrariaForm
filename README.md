@@ -5,4 +5,6 @@ Terraform will automatically deploy all the aws infrastructure we need and then 
 
 Terra.yml will then do everything needed to run the server - install prerequisites, create users, give permissions, download files, and finally run the server in a tmux session.
 
+If you need to access the server, use SSH to connect to your instance, switch to the TerrariaServer user and then use tmux attach.
+
 Important to note: There is currently a big with TerrariaServer 1.4.0.5 where it does not read config files correctly, so some are supplied as command line options in terra.yml
