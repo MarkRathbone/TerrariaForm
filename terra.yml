@@ -11,8 +11,12 @@
         - "*"
         - wget
         - unzip
-        - tmux
       state: installed
+  - name: Install tmux
+    package:
+      name: tmux
+      state: present
+    tags: tmux
 
   - name: Create the user for the Terraria server
     user:
