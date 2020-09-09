@@ -50,7 +50,7 @@ difficulty=3
 #password=ohno
 
 #Set the message of the day
-motd=Hello there! If Elon is here dm me on discord and i'll ban him and leak his ip. thanks :)
+motd=Hello there!
 
 #Sets the folder where world files will be stored
 #WARNING: Environment variables ($HOME, ~) don't work yet, so the stated folder will be relatively created in "serverfiles" if the given path is relative.
