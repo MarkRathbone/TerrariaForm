@@ -9,4 +9,4 @@ Terra.yml will then do everything needed to run the server - install prerequisit
 
 If you need to access the server, use SSH to connect to your instance, switch to the TerrariaServer user and then use tmux attach to attach to it. You can view a full list of tmux commands elsewhere, but the important one for this setup is Ctrl+B D to detach from the Tmux session without closing it, allowing it to run in the background and be running when you exit terminal.
 
-Important to note: There is currently a big with TerrariaServer 1.4.0.5 where it does not read config files correctly, so some are supplied as command line options in terra.yml
+Important to note: There is currently a bug with TerrariaServer 1.4.0.5 where it does not read config files correctly, so some are supplied as command line options in terra.yml
