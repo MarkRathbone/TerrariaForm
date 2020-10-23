@@ -31,43 +31,43 @@
   become_user: TerrariaServer
   tasks:
   - stat:
-      path: ~/1405/Linux/TerrariaServer.bin.x86_64
+      path: ~/1411/Linux/TerrariaServer.bin.x86_64
     register: server
 
   - name: Download
     when: server.stat.exists == False
     get_url: 
-      url: https://www.terraria.org/system/dedicated_servers/archives/000/000/039/original/terraria-server-1405.zip?1591301368
+      url: https://www.terraria.org/system/dedicated_servers/archives/000/000/041/original/terraria-server-1411.zip
       dest: ~/
 
   - name: Unzip
     when: server.stat.exists == False
     unarchive:
       remote_src: yes
-      src: ~/terraria-server-1405.zip
+      src: ~/terraria-server-1411.zip
       dest: ~/
       
   - name: Permissions
     when: server.stat.exists == False
     file:
-      path: ~/1405/Linux/TerrariaServer.bin.x86_64
+      path: ~/1411/Linux/TerrariaServer.bin.x86_64
       state: file
       mode: +x
 
   - name: Create worlds directory
     file:
-      path: ~/1405/Linux/worlds
+      path: ~/1411/Linux/worlds
       state: directory
       mode: g+w
 
   - name: Configuration file
     copy:
       src: ./serverconfig.txt
-      dest: ~/1405/Linux/serverconfig.txt
+      dest: ~/1411/Linux/serverconfig.txt
 
 #there is a bug in the TerrariaServer version 1.4.0.5 binary where it doesn't read configs properly.
   - name: Open tmux session
     command: tmux new-session -d -s Terraria
 
   - name: Launch Server
-    command: tmux send-keys '/home/TerrariaServer/1405/Linux/TerrariaServer.bin.x86_64 -config serverconfig.txt -port 7777 -players 4 -pass SomePasswordhere -world /home/TerrariaServer/1405/Linux/worlds/Terra.wld -autocreate 2 -worldname Terra -secure -seed WorldSeed' C-m
+    command: tmux send-keys '/home/TerrariaServer/1411/Linux/TerrariaServer.bin.x86_64 -config serverconfig.txt -port 7777 -players 4 -pass SomePasswordhere -world /home/TerrariaServer/1405/Linux/worlds/Terra.wld -autocreate 2 -worldname Terra -secure -seed WorldSeed' C-m
